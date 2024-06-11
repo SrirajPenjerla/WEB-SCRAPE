@@ -1,0 +1,43 @@
+{% extends "base_out.html" %}
+<style>
+
+
+
+    p1{
+        word-wrap: break-word;
+        
+    }
+    p2{
+        word-wrap: break-word;
+        
+        
+    }
+
+</style>
+
+{% block content %}
+<h1 style="color:blue;" >HERE ARE YOUR PRODUCT PRICES  : </h1>
+<div style="display:flex;"id="content">
+
+<div style="max-width: 50%; justify-content: center;inline-size: 2; margin-left: 2%;"class="page1">
+<p1 ><h2>AMAZON:</h2>
+    <ul>
+        
+        {% for i in o1 %}
+            <li>{{ i }}</li>
+        {% endfor %}
+        </ul>
+</p1>
+</div>
+<br>
+<div  style="margin-left:10%;"class="page2">
+<p2><h2 ><img src="{{ url_for('static', filename='download.jpg') }}" width="35" height="35" style="border-radius: 50% ;" >FLIPKART:</h2>
+    <ul> 
+        {% for i in o2 %}
+            <li>{{ i }}</li>
+        {% endfor %}
+        </ul>
+</p2>
+</div>
+</div>
+{% endblock %}
