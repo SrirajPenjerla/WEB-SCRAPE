@@ -1,7 +1,13 @@
 from bs4 import BeautifulSoup
 import requests
-import lxml
-import re
+# import lxml
+# import re
+import time
+# import lxml
+# import selenium
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 Edge/16.16299",
@@ -84,3 +90,90 @@ def flipkart_find(query):
 #         else:
 #             print("no such number")
     
+def flipkart_find(query):
+    driver=webdriver.Chrome()
+    driver.get(url="https://www.flipkart.com")
+    sbox=driver.find_element(By.NAME, "q")
+    sbox.send_keys(query)
+    sbox.send_keys(Keys.RETURN)
+    time.sleep(2)
+    results=driver.find_elements(By.XPATH, '//div[@class="tUxRFH"]')
+    lis=[]
+    for result in results:
+        title=result.find_element(By.XPATH, './/div[@class="KzDlHZ"]').text
+        price=result.find_element(By.XPATH, './/div[@class="Nx9bqj _4b5DiR"]').text
+        lis.append(f" {title} - {price}.")
+        print(lis)
+    return lis
+
+
+def amazon_find(query):
+    driver=webdriver.Chrome()
+    driver.get(url="https://www.amazon.in")
+    sbox=driver.find_element(By.XPATH,'//*[@id="twotabsearchtextbox"]')
+    sbox.send_keys(query)
+    sbox.send_keys(Keys.RETURN)
+    time.sleep(2)
+    results=driver.find_elements(By.XPATH,'//div[@data-component-type="s-search-result"]')
+    lis=[]
+    for result in results:
+        title=result.find_element(By.XPATH,'.//h2/a/span').text
+        price=result.find_element(By.XPATH,'.//span[@class="a-price-whole"]').text
+        lis.append(f" {title} - {price}.")
+        print(lis)
+    return lis
+
+
+
+# overriding
+
+def amazon_find(query):
+    driver=webdriver.Chrome()
+    driver.get(url="https://www.amazon.in")
+    sbox=driver.find_element(By.XPATH,'//*[@id="twotabsearchtextbox"]')
+    sbox.send_keys(query)
+    sbox.send_keys(Keys.RETURN)
+    time.sleep(2)
+    results=driver.find_elements(By.XPATH,'//div[@data-component-type="s-search-result"]')
+    lis=[]
+    time.sleep(4)
+    try:
+        for result in results:
+            title=result.find_element(By.XPATH,'.//h2/a/span').text
+            price=result.find_element(By.XPATH,'.//span[@class="a-price-whole"]').text
+            lis.append(f" {title} - ₹ {price}.")
+            i+=1
+            print(lis)
+    except:
+        for result in results:
+            title=result.find_element(By.XPATH,'.//span[@class="a-size-base-plus a-color-base a-text-normal"]').text
+            price=result.find_element(By.XPATH,'//span[@class="a-price-whole"]').text
+            lis.append(f" {title} - ₹ {price}.")
+            print(lis)
+
+    return lis
+
+def flipkart_find(query):
+    driver=webdriver.Chrome()
+    driver.get(url="https://www.flipkart.com")
+    sbox=driver.find_element(By.NAME, "q")
+    sbox.send_keys(query)
+    sbox.send_keys(Keys.RETURN)
+    time.sleep(2)
+    results=driver.find_elements(By.XPATH,'//div[@class="_75nlfW"]')
+    lis=[]
+    time.sleep(2)
+    try:
+        for result in results:
+            title=result.find_element(By.XPATH, './/div[@class="KzDlHZ"]').text
+            price=result.find_element(By.XPATH, './/div[@class="Nx9bqj _4b5DiR"]').text
+            lis.append(f" {title} - {price}.")
+            print(lis)
+    except:
+        for result in results:
+            title=result.find_element(By.XPATH, './/a[@class="wjcEIp"]').text
+            price=result.find_element(By.XPATH, './/div[@class="Nx9bqj"]').text
+            lis.append(f" {title} - {price}.")
+            print(lis)
+
+    return lis
